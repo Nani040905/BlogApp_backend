@@ -1,0 +1,91 @@
+### User Register
+POST http://localhost:3000/user-api/users
+Content-Type: application/json
+
+{
+    "firstName": "Radfvbm1",
+    "lastName": "Pulla1",
+    "email":"rvvam1@gmail.com",
+    "password":"Ram1234"
+}
+
+### User authenticate
+POST http://localhost:3000/common-api/login
+Content-Type: application/json
+
+{
+    "email":"ram1@gmail.com",
+    "password":"Ram1234"
+}
+
+###Reading articles as user
+GET http://localhost:3000/user-api/articles
+
+### Add comment
+PUT http://localhost:3000/user-api/articles
+Content-Type: application/json
+
+{
+    "articleId":"69ae48cf3a01984e8e59c7df",
+    "user":"69ae48433a01984e8e59c7d1",
+    "comment":"test comment"
+}
+
+### logout
+GET http://localhost:3000/common-api/logout
+
+
+### Author Register
+POST http://localhost:3000/author-api/users
+Content-Type: application/json
+
+{
+    "firstName": "Raju1",
+    "lastName": "Pulla1",
+    "email":"raju1@gmail.com",
+    "password":"Rajui1234"
+}
+
+### Author authenticate
+POST http://localhost:3000/common-api/login
+Content-Type: application/json
+
+{
+    "email":"raju@gmail.com",
+    "password":"Rajui123"
+}
+
+### Creating Article
+POST http://localhost:3000/author-api/articles
+Content-Type: application/json
+
+{
+    "author":"69ae48823a01984e8e59c7d6",
+    "title":"test3 article",
+    "category":"programming",
+    "content":"test2 article content"
+}
+
+###Reading articles of the author
+GET http://localhost:3000/author-api/articles/69ae48823a01984e8e59c7d6
+
+### Updating Article
+PUT http://localhost:3000/author-api/articles
+Content-Type: application/json
+
+{
+    "author":"698979935d68a2bc37f9c04b",
+    "articleId":"69897fb5c0e6f3cb79cc65c9",
+    "title":"test1 article Updated2",
+    "category":"programming",
+    "content":"test1 article content"
+}
+
+
+### Delete Article
+DELETE  http://localhost:3000/author-api/articles/authorId/69ae48823a01984e8e59c7d6/articleId/69ae48cf3a01984e8e59c7df
+
+
+#### Restore Article
+PATCH    http://localhost:3000/author-api/articles/authorId/69ae48823a01984e8e59c7d6/articleId/69ae48cf3a01984e8e59c7df
+
