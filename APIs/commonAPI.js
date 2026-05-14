@@ -1,11 +1,26 @@
 import express from 'express';
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+
 import { authenticate } from '../services/authService.js'
 import { verifyToken } from '../middleware/verifyToken.js'
 import { UserTypeModel } from '../models/userModel.js';
 import { ArticleModel } from '../models/articleModel.js';
 
 export const commonRouter = express.Router()
+
+// Get all active articles (PUBLIC)
+commonRouter.get('/articles', async (req, res) => {
+    try {
+        let articles = await ArticleModel.find({ isArticleActive: true })
+            .populate("author", "firstName lastName profileImageUrl")
+            .sort({ createdAt: -1 });
+        res.status(200).json({ message: "public articles", payload: articles });
+    } catch (err) {
+        res.status(500).json({ message: "error fetching articles", error: err.message });
+    }
+});
+
 
 // Get single article by ID (any logged-in user)
 commonRouter.get('/articles/:articleId', verifyToken("USER", "AUTHOR", "ADMIN"), async (req, res) => {
@@ -81,7 +96,18 @@ commonRouter.put('/change-password', verifyToken, async (req, res) => {
     res.status(200).json({ message: "Password changed successfully", payload: temp });
 })
 
-// verify the session
-commonRouter.get('/check-auth', verifyToken("USER", "AUTHOR", "ADMIN"), async (req, res) => {
-    res.status(200).json({ message: "authenticated", payload: req.user })
-})
+// verify the session (Lenient check to avoid 401 logs in console)
+commonRouter.get('/check-auth', async (req, res) => {
+    try {
+        let token = req.cookies.token;
+        if (!token) {
+            return res.status(200).json({ message: "not authenticated", payload: null, isAuthenticated: false });
+        }
+        
+        const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+        res.status(200).json({ message: "authenticated", payload: decodedToken, isAuthenticated: true });
+    } catch (err) {
+        // If token is invalid or expired, still return 200 but not authenticated
+        res.status(200).json({ message: "session invalid or expired", payload: null, isAuthenticated: false });
+    }
+});
