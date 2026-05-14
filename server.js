@@ -27,18 +27,25 @@ app.use('/author-api', authorRoute)
 app.use('/admin-api', adminRoute)
 app.use('/common-api', commonRouter)
 
+// Root route for health check
+app.get('/', (req, res) => {
+    res.json({ message: "Blog App API is running..." });
+})
+
 // Connect to Database
 const connectDB = async () => {
     try {
         await connect(process.env.DB_URL)
         console.log("DB connection success")
-        app.listen(process.env.PORT, () => console.log(`server started in port ${process.env.PORT}`))
     } catch (err) {
         console.log("Err in DB connection", err)
     }
 }
 
 connectDB()
+
+const port = process.env.PORT || 4000;
+app.listen(port, () => console.log(`server started in port ${port}`))
 
 //dealing with invalid paths
 app.use((req, res, next) => {

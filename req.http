@@ -1,5 +1,8 @@
+@baseUrl = http://localhost:4000
+# @baseUrl = https://blogapp-backend-hgpc.onrender.com
+
 ### User Register
-POST http://localhost:3000/user-api/users
+POST {{baseUrl}}/user-api/users
 Content-Type: application/json
 
 {
@@ -10,7 +13,7 @@ Content-Type: application/json
 }
 
 ### User authenticate
-POST http://localhost:3000/common-api/login
+POST {{baseUrl}}/common-api/login
 Content-Type: application/json
 
 {
@@ -19,10 +22,10 @@ Content-Type: application/json
 }
 
 ###Reading articles as user
-GET http://localhost:3000/user-api/articles
+GET {{baseUrl}}/user-api/articles
 
 ### Add comment
-PUT http://localhost:3000/user-api/articles
+PUT {{baseUrl}}/user-api/articles
 Content-Type: application/json
 
 {
@@ -32,11 +35,11 @@ Content-Type: application/json
 }
 
 ### logout
-GET http://localhost:3000/common-api/logout
+GET {{baseUrl}}/common-api/logout
 
 
 ### Author Register
-POST http://localhost:3000/author-api/users
+POST {{baseUrl}}/author-api/users
 Content-Type: application/json
 
 {
@@ -47,7 +50,7 @@ Content-Type: application/json
 }
 
 ### Author authenticate
-POST http://localhost:3000/common-api/login
+POST {{baseUrl}}/common-api/login
 Content-Type: application/json
 
 {
@@ -56,7 +59,7 @@ Content-Type: application/json
 }
 
 ### Creating Article
-POST http://localhost:3000/author-api/articles
+POST {{baseUrl}}/author-api/articles
 Content-Type: application/json
 
 {
@@ -67,10 +70,10 @@ Content-Type: application/json
 }
 
 ###Reading articles of the author
-GET http://localhost:3000/author-api/articles/69ae48823a01984e8e59c7d6
+GET {{baseUrl}}/author-api/articles/69ae48823a01984e8e59c7d6
 
 ### Updating Article
-PUT http://localhost:3000/author-api/articles
+PUT {{baseUrl}}/author-api/articles
 Content-Type: application/json
 
 {
@@ -83,9 +86,9 @@ Content-Type: application/json
 
 
 ### Delete Article
-DELETE  http://localhost:3000/author-api/articles/authorId/69ae48823a01984e8e59c7d6/articleId/69ae48cf3a01984e8e59c7df
+DELETE  {{baseUrl}}/author-api/articles/authorId/69ae48823a01984e8e59c7d6/articleId/69ae48cf3a01984e8e59c7df
 
 
 #### Restore Article
-PATCH    http://localhost:3000/author-api/articles/authorId/69ae48823a01984e8e59c7d6/articleId/69ae48cf3a01984e8e59c7df
+PATCH    {{baseUrl}}/author-api/articles/authorId/69ae48823a01984e8e59c7d6/articleId/69ae48cf3a01984e8e59c7df
 
