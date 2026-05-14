@@ -12,8 +12,10 @@ import cors from 'cors'
 config()//process .env
 
 const app = express()
+app.set('trust proxy', 1)
+
 app.use(cors({
-    origin: process.env.FRONTEND_URL ? process.env.FRONTEND_URL.split(',') : true,
+    origin: process.env.FRONTEND_URL ? process.env.FRONTEND_URL.split(',').map(u => u.trim()) : true,
     credentials: true
 }))
 
