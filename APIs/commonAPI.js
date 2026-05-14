@@ -30,8 +30,8 @@ commonRouter.post('/login', async (req, res) => {
     //save httponlt cookie
     res.cookie("token", token, {
         httpOnly: true,
-        sameSite: "lax",
-        secure: false
+        sameSite: "none",
+        secure: true
     })
     //send res
     res.status(200).json({ message: "login success", payload: user })
@@ -43,8 +43,8 @@ commonRouter.post('/login', async (req, res) => {
 commonRouter.use('/logout', (req, res) => {
     res.clearCookie('token', {
         httpOnly: true,
-        secure: false,
-        sameSite: "lax"
+        secure: true,
+        sameSite: "none"
     })
     res.status(200).json({ message: "logout success" })
 })

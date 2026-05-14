@@ -10,7 +10,7 @@ export const verifyToken=(... allowedRoles)=>{
             //read token from req
             let token = req.cookies.token
             if (!token) {
-              return res.status(400).json({message:"Unauthorized request. Please Login"})
+              return res.status(401).json({message:"Unauthorized request. Please Login"})
             }
             //verify the validity of the token(decoding the token)
             const decodedToken = jwt.verify(token,process.env.JWT_SECRET)

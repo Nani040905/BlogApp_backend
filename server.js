@@ -13,7 +13,7 @@ config()//process .env
 
 const app = express()
 app.use(cors({
-    origin: process.env.FRONTEND_URL || '*',
+    origin: process.env.FRONTEND_URL ? process.env.FRONTEND_URL.split(',') : true,
     credentials: true
 }))
 
