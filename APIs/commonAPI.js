@@ -31,7 +31,9 @@ commonRouter.post('/login', async (req, res) => {
     res.cookie("token", token, {
         httpOnly: true,
         sameSite: "none",
-        secure: true
+        secure: true,
+        maxAge: 24 * 60 * 60 * 1000, // 1 day
+        partitioned: true
     })
     //send res
     res.status(200).json({ message: "login success", payload: user })
@@ -44,7 +46,8 @@ commonRouter.use('/logout', (req, res) => {
     res.clearCookie('token', {
         httpOnly: true,
         secure: true,
-        sameSite: "none"
+        sameSite: "none",
+        partitioned: true
     })
     res.status(200).json({ message: "logout success" })
 })
