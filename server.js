@@ -13,7 +13,7 @@ config()//process .env
 
 const app = express()
 app.use(cors({
-    origin: ['https://blogapp-frontend-2t4k.onrender.com/'],
+    origin: process.env.FRONTEND_URL || '*',
     credentials: true
 }))
 
