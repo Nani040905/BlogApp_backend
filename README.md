@@ -6,6 +6,13 @@ The server implements dynamic CORS controls, secure HttpOnly cookie session mana
 
 ---
 
+## 🌐 Live Deployed Environments
+
+*   **⚡ Live Web Platform (Frontend)**: [blog-app-frontend-one-lake.vercel.app](https://blog-app-frontend-one-lake.vercel.app/)
+*   **🔌 Live API Server (Backend)**: [blogapp-backend-5dvn.onrender.com](https://blogapp-backend-5dvn.onrender.com/)
+
+---
+
 ## 🛠️ Technology Stack
 
 The backend uses a modern, light Node.js framework designed for reliability:

@@ -78,18 +78,48 @@ erDiagram
 
 ### 1. User Model (`UserTypeModel`)
 *   **Collection Name**: `users`
-*   **Enforced Rules**:
-    *   `email`: Requires unique constraints and strict validation.
-    *   `role`: Bound to Mongoose standard `enum` strings: `"USER"`, `"AUTHOR"`, `"ADMIN"`.
-    *   `isActive`: Boolean flag for platform moderation (defaults to `true`). If toggled to `false`, access routes block further queries.
-    *   **Settings**: Enforces `{ strict: 'throw' }` to drop invalid extra parameters, and `{ versionKey: false }` to clean Mongoose version tags.
+*   **Mongoose Schema Options**:
+    *   `timestamps: true`: Automatically creates and updates `createdAt` and `updatedAt` datetime properties.
+    *   `strict: 'throw'`: Throws a validation error if any extra or undefined parameters are sent in request payloads, protecting database integrity.
+    *   `versionKey: false`: Removes the default `__v` internal Mongoose document version property from Mongo documents.
+
+#### Detailed Schema Properties
+
+| Field Name | Data Type | Database Constraints & Rules | Custom Validation Message | Purpose |
+| :--- | :--- | :--- | :--- | :--- |
+| `firstName` | `String` | Required | `"First name is required"` | User's first name for personalization. |
+| `lastName` | `String` | Optional | *None* | Optional family name. |
+| `email` | `String` | Required, Unique | `"Email is required"`, `"Email already exist"` | Session identifier and communication handle. |
+| `password` | `String` | Required | `"Password is required"` | Securely salted and hashed password digest. |
+| `profileImageUrl` | `String` | Optional | *None* | Secure Cloudinary CDN link to the profile photo. |
+| `role` | `String` | Required, Enum: `["AUTHOR", "USER", "ADMIN"]` | `"{Value} is an invalid role"` | Platform routing permission controls. |
+| `isActive` | `Boolean` | Optional, Default: `true` | *None* | Flag used by administrators to suspend/block access. |
+
+---
 
 ### 2. Article Model (`ArticleModel`)
 *   **Collection Name**: `articles`
-*   **Embedded Schemas**: Utilizes an embedded sub-document array `comments: [userCommentSchema]` for rapid post queries.
-*   **Relationships**: 
-    *   `author`: A reference field `Schema.Types.ObjectId` that maps back to the `user` model (`ref: 'user'`).
-    *   `comments.user`: A reference field pointing back to the `user` collection to dynamically grab commenter avatars and names.
+*   **Mongoose Schema Options**: Enforces `{ timestamps: true, strict: "throw", versionKey: false }` mirroring the User model rules.
+
+#### Detailed Schema Properties
+
+| Field Name | Data Type | Database Constraints & Rules | Custom Validation Message | Purpose |
+| :--- | :--- | :--- | :--- | :--- |
+| `author` | `ObjectId` | Required, Relational Ref: `'user'` | `"Author ID required"` | Links the article directly to the creating Author. |
+| `title` | `String` | Required | `"Title is required"` | Title of the story. |
+| `category` | `String` | Required | `"Category is required"` | Tag to group articles (e.g. Tech, General). |
+| `content` | `String` | Required | `"Content is required"` | Full body markdown content of the story. |
+| `isArticleActive`| `Boolean` | Optional, Default: `true` | *None* | Used for soft-delete controls by Authors/Admins. |
+| `comments` | `Array` | List of embedded `userCommentSchema` | *None* | List of reader reviews posted on the article. |
+
+#### Sub-Document: User Comment Schema (`userCommentSchema`)
+The comments list is modeled as an embedded sub-document array nested directly inside each article document. This eliminates the need for expensive Mongoose aggregate pipelines:
+
+| Sub-Field Name | Data Type | Database Constraints & Rules | Purpose |
+| :--- | :--- | :--- | :--- |
+| `user` | `ObjectId` | Relational Ref: `'user'` | References the Reader who posted the review. |
+| `comment` | `String` | Optional | Raw text content of the review. |
+
 
 ---
 

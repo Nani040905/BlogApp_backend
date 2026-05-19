@@ -10,12 +10,50 @@ This guide provides instructions for setting up, configuring, and deploying the 
 *   **Node.js**: Version `18.x` or higher (recommended: `20.x` LTS)
 *   **MongoDB**: An active local instance (`mongodb://localhost:27017/blogDB1`) or a MongoDB Atlas cloud cluster.
 
-### 1. Onboarding
-Navigate to the backend directory and install the project dependencies:
+### 1. Project Initialization & Package Installation
+
+If you are setting up the project from scratch or installing the modules manually, here are the step-by-step instructions.
+
+#### Step A: Initialize the Node.js Project
+Create a `package.json` configurations file:
 ```bash
-cd BlogApp_backend
+# Initialize npm with default settings
+npm init -y
+```
+
+> [!NOTE]
+> Make sure to add `"type": "module"` inside your root `package.json` to enable ES6 dynamic module loading (e.g. using `import` instead of `require`).
+
+#### Step B: Install Production Dependencies
+Run the following command to install the required production libraries:
+```bash
+npm install express@^5.2.1 mongoose@^9.1.5 jsonwebtoken@^9.0.3 bcryptjs@^3.0.3 cookie-parser@^1.4.7 cors@^2.8.6 dotenv@^17.2.3 multer@^2.1.1 cloudinary@^2.9.0
+```
+
+Here is a breakdown of what each package is used for:
+*   `express`: Express v5 framework for REST API routing and endpoints.
+*   `mongoose`: Mongoose v9 Object Data Modeling (ODM) library for MongoDB queries and schemas.
+*   `jsonwebtoken`: JSON Web Token generator and validator for secure HttpOnly sessions.
+*   `bcryptjs`: Secure cryptographic password-hashing salting library.
+*   `cookie-parser`: Middleware to extract and parse HTTP session cookies automatically.
+*   `cors`: Cross-Origin Resource Sharing validator allowing authorized frontend connections.
+*   `dotenv`: Loads environment parameters (`.env`) into the Express server environment.
+*   `multer`: In-memory file storage manager intercepting image upload payloads.
+*   `cloudinary`: Cloudinary SDK streaming profile images directly to the media cloud.
+
+#### Step C: Install Development Dependencies
+Run the following command to install Nodemon for hot-reloading development support:
+```bash
+npm install -D nodemon@^3.1.11
+```
+
+#### Step D: Install All Packages (Existing Repository)
+If you already have `package.json` cloned, simply execute the standard install command:
+```bash
 npm install
 ```
+
+---
 
 ### 2. Configure Environment Variables
 Create a `.env` file in the root of the `BlogApp_backend` directory:
@@ -80,7 +118,7 @@ Set the following properties in the Render dashboard:
 Under the **Environment Variables** tab, add all keys defined in your local `.env` file:
 *   Set `PORT` to `4000` (Render binds this port automatically).
 *   Set `DB_URL` to your production MongoDB Atlas cluster string.
-*   Set `FRONTEND_URL` to your live Vercel frontend URL (e.g., `https://blogapp-frontend.vercel.app`).
+*   Set `FRONTEND_URL` to your live Vercel frontend URL (`https://blog-app-frontend-one-lake.vercel.app`).
 *   Set your production `JWT_SECRET`, `CLOUD_NAME`, `API_KEY`, and `API_SECRET`.
 
 Click **Deploy Web Service**! Render will build your dependencies and launch the server.
