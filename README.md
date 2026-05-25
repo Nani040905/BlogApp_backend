@@ -8,43 +8,43 @@
 
 # Source: architecture.md
 
-# 🏗️ Backend System Architecture & Data Schema
+# Backend System Architecture & Data Schema
 
 This document details the Express application pipeline, Mongoose database design, data relationships, and central error management of the **BlogApp Backend**.
 
 ---
 
-## 📂 Backend Directory Structure
+## Backend Directory Structure
 
 The server follows a structured model-view-controller (MVC) architecture styled for scale and rapid REST endpoint routing:
 
 ```text
 BlogApp_backend/
-├── APIs/                     # 🛣️ REST Route Endpoints (common, user, author, admin)
+├── APIs/                     # REST Route Endpoints (common, user, author, admin)
 │   ├── adminAPI.js
 │   ├── authorAPI.js
 │   ├── commonAPI.js
 │   └── userAPI.js
-├── config/                   # 🔌 Cloudinary & Multer disk storage controllers
+├── config/                   # Cloudinary & Multer disk storage controllers
 │   ├── cloudinary.js
 │   ├── cloudinaryUpload.js
 │   └── multer.js
-├── middleware/               # 🛡️ Route interceptors, guards, and credentials checking
+├── middleware/               # Route interceptors, guards, and credentials checking
 │   ├── verifyAuthor.js
 │   └── verifyToken.js
-├── models/                   # 💾 MongoDB Mongoose Data Schemas
+├── models/                   # MongoDB Mongoose Data Schemas
 │   ├── articleModel.js
 │   └── userModel.js
-├── services/                 # 🧠 Authentication pipelines and business logic
+├── services/                 # Authentication pipelines and business logic
 │   └── authService.js
-├── server.js                 # 🚀 App entry, DB init, & error middlewares
-├── .env                      # 📡 Server configurations & API keys
-└── req.http                  # ⚡ HTTP client test suite
+├── server.js                 # App entry, DB init, & error middlewares
+├── .env                      # Server configurations & API keys
+└── req.http                  # HTTP client test suite
 ```
 
 ---
 
-## 💾 Mongoose Data Schemas & Relationships
+## Mongoose Data Schemas & Relationships
 
 The database is built on **MongoDB** using Mongoose schemas with strict validations, strict schema validation errors, auto-timestamp generators, and relational references:
 
@@ -132,7 +132,7 @@ The comments list is modeled as an embedded sub-document array nested directly i
 
 ---
 
-## 🔀 Central Express Middleware Pipeline
+## Central Express Middleware Pipeline
 
 All incoming HTTP requests follow a modular middleware pipeline:
 
@@ -154,7 +154,7 @@ All incoming HTTP requests follow a modular middleware pipeline:
 
 ---
 
-## 🛡️ Centralized Error Handling Handler (`server.js`)
+## Centralized Error Handling Handler (`server.js`)
 
 The application implements a robust error handling middleware at the end of the chain in `server.js`. This captures all database exceptions and custom API errors, converting them into uniform JSON responses:
 
@@ -171,13 +171,13 @@ The application implements a robust error handling middleware at the end of the 
 
 # Source: authentication.md
 
-# 🔒 Security, Authentication & Session Strategy
+# Security, Authentication & Session Strategy
 
 This document details the authentication models, encryption layers, token generations, cookie architectures, and custom security check middleware used by the **BlogApp Backend**.
 
 ---
 
-## 🔑 Password Hashing (BcryptJS)
+## Password Hashing (BcryptJS)
 
 The application prioritizes user credential security by completely decoupling plain-text passwords before storing them in MongoDB:
 
@@ -191,7 +191,7 @@ The application prioritizes user credential security by completely decoupling pl
 
 ---
 
-## 🎟️ JSON Web Tokens (JWT) & Generation
+## JSON Web Tokens (JWT) & Generation
 
 Authentications issue a secure, signed **JSON Web Token** storing essential session properties:
 
@@ -213,7 +213,7 @@ Authentications issue a secure, signed **JSON Web Token** storing essential sess
 
 ---
 
-## 🍪 HttpOnly Cookie Transport Strategy
+## HttpOnly Cookie Transport Strategy
 
 To protect tokens from cross-site scripting (XSS) extraction attacks, the backend transfers JWTs exclusively inside **HttpOnly Cookies**:
 
@@ -232,7 +232,7 @@ res.cookie("token", token, {
 
 ---
 
-## 🛡️ Security Middlewares Breakdown
+## Security Middlewares Breakdown
 
 The backend uses two security middleware layers inside the route chains:
 
@@ -272,13 +272,13 @@ graph TD
 
 # Source: api-routes.md
 
-# 🔌 REST API Routes & Endpoints Directory
+# REST API Routes & Endpoints Directory
 
 This document lists all REST API endpoints available in the **BlogApp Backend**, classified by role scope.
 
 ---
 
-## 🌐 Public / Guest Scopes (`/common-api`)
+## Public / Guest Scopes (`/common-api`)
 
 Unified public actions, visitor queries, and general session validation pathways.
 
@@ -350,7 +350,7 @@ Unified public actions, visitor queries, and general session validation pathways
 
 ---
 
-## 📖 Reader / User Scopes (`/user-api`)
+## Reader / User Scopes (`/user-api`)
 
 Actions restricted to readers (`USER`).
 
@@ -395,7 +395,7 @@ Actions restricted to readers (`USER`).
 
 ---
 
-## ✍️ Writer / Author Scopes (`/author-api`)
+## Writer / Author Scopes (`/author-api`)
 
 Actions restricted to creators (`AUTHOR`).
 
@@ -433,7 +433,7 @@ Actions restricted to creators (`AUTHOR`).
 
 ---
 
-## ⚙️ Administration Scopes (`/admin-api`)
+## Administration Scopes (`/admin-api`)
 
 Platform moderation and metrics actions, restricted to administrators (`ADMIN`).
 
@@ -463,13 +463,13 @@ Platform moderation and metrics actions, restricted to administrators (`ADMIN`).
 
 # Source: media-uploads.md
 
-# 🖼️ Media Uploads, Multer & Cloudinary Integration
+# Media Uploads, Multer & Cloudinary Integration
 
 This document details the configuration and pipelines for handling image uploads, validating file formats, streaming assets to **Cloudinary**, and managing database rollbacks on failure.
 
 ---
 
-## 🏗️ Visual Media Upload Pipeline
+## Visual Media Upload Pipeline
 
 The application processes user profile uploads dynamically in memory, ensuring no temporary files leak onto local disk drives:
 
@@ -505,7 +505,7 @@ The application processes user profile uploads dynamically in memory, ensuring n
 
 ---
 
-## 📁 Multer Memory Configuration (`config/multer.js`)
+## Multer Memory Configuration (`config/multer.js`)
 
 Multer intercepts registration requests, checking file metadata before passing it to memory storage:
 
@@ -530,7 +530,7 @@ export const upload = multer({
 
 ---
 
-## ☁️ Cloudinary SDK Integration (`config/cloudinary.js`)
+## Cloudinary SDK Integration (`config/cloudinary.js`)
 
 Cloudinary credentials are loaded securely from the environment configuration:
 
@@ -542,7 +542,7 @@ cloudinary.config({
 });
 ```
 
-### ⚡ Upload Stream Wrapper (`config/cloudinaryUpload.js`)
+### Upload Stream Wrapper (`config/cloudinaryUpload.js`)
 Since the files are stored in memory, we stream them directly to Cloudinary:
 
 ```javascript
@@ -562,7 +562,7 @@ export const uploadToCloudinary = (buffer) => {
 
 ---
 
-## 🛡️ Fail-Safe Database Rollback Routine
+## Fail-Safe Database Rollback Routine
 
 If an image upload succeeds but the user registration subsequently fails database validation (e.g. duplicate email conflicts), the orphaned image is deleted from Cloudinary immediately:
 
@@ -603,13 +603,13 @@ This ensures Cloudinary storage remains clean and free of orphaned images.
 
 # Source: deployment-setup.md
 
-# 🛠️ Backend Setup, local development & Deployment Guide
+# Backend Setup, local development & Deployment Guide
 
 This guide provides instructions for setting up, configuring, and deploying the **BlogApp Backend** application.
 
 ---
 
-## 💻 Local Development Setup
+## Local Development Setup
 
 ### Prerequisites
 *   **Node.js**: Version `18.x` or higher (recommended: `20.x` LTS)
@@ -683,7 +683,7 @@ API_SECRET=your_cloudinary_api_secret
 
 ---
 
-## 🚀 Running Commands
+## Running Commands
 
 These scripts are defined in `package.json` and are available via `npm run <command>`:
 
@@ -701,7 +701,7 @@ npm start
 
 ---
 
-## 📦 Production Deployment Guide (Render)
+## Production Deployment Guide (Render)
 
 Render is recommended for hosting Node.js Express APIs.
 
@@ -730,7 +730,7 @@ Click **Deploy Web Service**! Render will build your dependencies and launch the
 
 ---
 
-## 🔎 API Health & Test Verification
+## API Health & Test Verification
 
 You can test that the API is running correctly using the root health check endpoint:
 
@@ -747,7 +747,7 @@ You can test that the API is running correctly using the root health check endpo
 
 
 
-# 🔄 System Sequence Diagrams
+# System Sequence Diagrams
 
 ## User Registration with Profile Upload
 
